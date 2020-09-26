@@ -55,7 +55,8 @@ QrCodeScannerScreen.navigationOptions = {
     elevation: 0,
     shadowOpacity: 0, 
     borderBottomWidth: 0, 
-    height: 40
+    height: 40,
+    marginTop: -40
   },
   headerTitleStyle: { 
     alignSelf:"center", 

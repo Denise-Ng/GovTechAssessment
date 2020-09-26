@@ -59,7 +59,7 @@ const HomeScreen = ({ navigation }) => {
       if(newRoomList.length != 0) {
         switch(sortBy) {
         case 0:
-          newRoomList.sort((a, b) => (a.name).localeCompare(b.name));
+          newRoomList.sort((a, b) => a.level - b.level);
           break;
         case 1:
           newRoomList.sort((a, b) => a.capacity - b.capacity);
@@ -77,7 +77,6 @@ const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.containerStyle}>
       <StatusBar  style={{backgroundColor: "#FFF"}}/>
-      {isLoading && <LoadingIndicatorView />}
       <View style={styles.dateTimeInputContainerStyle}>
         <Text style={styles.labelTextStyle}>Date</Text>
         <TouchableOpacity onPress={showDatepicker}>
@@ -113,6 +112,7 @@ const HomeScreen = ({ navigation }) => {
           />
         )}
       </View>
+      
 
       {isConnected ? (
         <>
@@ -128,23 +128,25 @@ const HomeScreen = ({ navigation }) => {
             </TouchableOpacity>
           </View>
 
-          <FlatList
-            data={roomList}
-            extraData={time}
-            keyExtractor={item => item.name}
-            renderItem={({ item, index }) => {
-              return (
-                <ListingCard
-                  key={index}
-                  name={item.name}
-                  level={item.level}
-                  status={isRoomAvailable(item.availability, time)}
-                  capacity={item.capacity}
-                />
-              )
-            }
-            }
-          />
+          {isLoading ? <LoadingIndicatorView /> : (
+            <FlatList
+              data={roomList}
+              extraData={time}
+              keyExtractor={item => item.name}
+              renderItem={({ item, index }) => {
+                return (
+                  <ListingCard
+                    key={index}
+                    name={item.name}
+                    level={item.level}
+                    status={isRoomAvailable(item.availability, time)}
+                    capacity={item.capacity}
+                  />
+                )
+              }
+              }
+            />
+          )}
 
           {showSortOverlay && (
             <FilterOverlay 
@@ -162,7 +164,6 @@ const HomeScreen = ({ navigation }) => {
 
   function onChange (event, selectedDate) {
     setShow(false);
-    console.log(event)
     if(event.type == "dismissed") {
       setDate(date);
     } else {
@@ -220,9 +221,6 @@ HomeScreen.navigationOptions = ({ navigation }) => {
   };
 }
 
-
-
-
 const styles = StyleSheet.create({
   containerStyle: {
     backgroundColor: "#FFF", 
@@ -268,7 +266,5 @@ const styles = StyleSheet.create({
   }
 });
 
-
-
-  export default HomeScreen;
+export default HomeScreen;
   

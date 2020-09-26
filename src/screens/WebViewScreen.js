@@ -6,8 +6,6 @@ import LoadingIndicatorView from "../components/LoadingIndicatorView";
 import NetInfo from "@react-native-community/netinfo";
 import NetworkErrorMessage from "../components/NetworkErrorMessage";
 
-const leftArrowIcon = require("../../assets/left-arrow.png");
-
 const WebViewScreen = ({ navigation }) => {
   const [data, setData] = useState("");
   const [isConnected, setIsConnected] = useState(false);
@@ -95,6 +93,7 @@ const styles = StyleSheet.create({
 });
   
 WebViewScreen.navigationOptions = ({ navigation }) => {
+  const leftArrowIcon = require("../../assets/left-arrow.png");
   return {
     title: "Confirmation",
     headerStatusBarHeight: 0,
